@@ -1,0 +1,534 @@
+:root {
+  --bg: #19130f;
+  --bg-deep: #0f0b09;
+  --paper: rgba(34, 27, 22, 0.86);
+  --paper-strong: rgba(26, 20, 16, 0.94);
+  --ink: #f2e5d4;
+  --muted: #aa967e;
+  --accent: #cf6c3d;
+  --line: rgba(255, 235, 213, 0.09);
+  --shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
+  --sidebar-width: 330px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: #120d0a;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  font-family: "Manrope", sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(207, 108, 61, 0.18), transparent 24%),
+    radial-gradient(circle at bottom right, rgba(228, 186, 118, 0.12), transparent 22%),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 241, 223, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 241, 223, 0.03) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.92));
+}
+
+.page-shell {
+  width: min(1450px, calc(100% - 28px));
+  margin: 14px auto;
+}
+
+.app-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, var(--sidebar-width)) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.reader-sidebar {
+  position: sticky;
+  top: 14px;
+  height: calc(100vh - 28px);
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.sidebar-frame {
+  display: grid;
+  grid-template-rows: auto auto auto auto;
+  gap: 18px;
+  min-height: 100%;
+}
+
+.upload-panel,
+.status-card,
+.sidebar-card,
+.book-view,
+.brand-block {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+}
+
+.brand-block {
+  padding: 28px 26px;
+  border-radius: 28px;
+  background:
+    linear-gradient(180deg, rgba(54, 40, 31, 0.94), rgba(28, 22, 18, 0.94)),
+    radial-gradient(circle at top right, rgba(207, 108, 61, 0.28), transparent 34%);
+}
+
+.brand-mark,
+.status-label,
+.sidebar-label,
+.upload-kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.brand-mark {
+  margin: 0 0 12px;
+}
+
+.brand-block h1 {
+  margin: 0;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(2.1rem, 3vw, 3rem);
+  line-height: 0.92;
+  font-weight: 700;
+}
+
+.brand-copy {
+  margin: 14px 0 0;
+  line-height: 1.8;
+  color: var(--muted);
+}
+
+.upload-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  min-height: 180px;
+  padding: 28px 24px;
+  border-radius: 28px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.upload-panel::after {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border: 1px dashed rgba(219, 177, 133, 0.24);
+  border-radius: 20px;
+}
+
+.upload-panel strong {
+  position: relative;
+  font-size: 1.8rem;
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 700;
+  z-index: 1;
+}
+
+.upload-hint {
+  position: relative;
+  color: var(--muted);
+  line-height: 1.7;
+  z-index: 1;
+}
+
+#pdfInput {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.status-card {
+  display: grid;
+  gap: 14px;
+  padding: 22px 20px;
+  border-radius: 24px;
+}
+
+.status-row {
+  display: grid;
+  gap: 6px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.status-row:last-of-type {
+  padding-bottom: 0;
+}
+
+.download-button {
+  width: 100%;
+  margin-top: 6px;
+  border: 0;
+  padding: 14px 18px;
+  border-radius: 18px;
+  font: inherit;
+  font-weight: 600;
+  color: #fff7f0;
+  background: linear-gradient(135deg, #cb6b3b, #8b472b);
+  box-shadow: 0 14px 30px rgba(140, 73, 42, 0.24);
+  cursor: pointer;
+  transition: transform 180ms ease, opacity 180ms ease, box-shadow 180ms ease;
+}
+
+.download-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 34px rgba(140, 73, 42, 0.28);
+}
+
+.download-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.sidebar-card {
+  min-height: 0;
+  padding: 22px 18px 18px;
+  border-radius: 24px;
+}
+
+.toc {
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+  max-height: 40vh;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.toc a {
+  color: var(--muted);
+  text-decoration: none;
+  padding: 12px 13px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid transparent;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, color 180ms ease;
+}
+
+.toc a:hover,
+.toc a.active {
+  transform: translateX(4px);
+  color: var(--ink);
+  border-color: rgba(207, 108, 61, 0.34);
+  background: linear-gradient(135deg, rgba(207, 108, 61, 0.16), rgba(255, 255, 255, 0.03));
+}
+
+.toc-empty {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.reader-main {
+  min-width: 0;
+}
+
+.book-view {
+  position: relative;
+  border-radius: 34px;
+  padding: 34px;
+  overflow: hidden;
+}
+
+.empty-state {
+  min-height: calc(100vh - 28px);
+  display: grid;
+  align-content: center;
+}
+
+.empty-hero {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 22px;
+  align-items: center;
+  max-width: 720px;
+}
+
+.empty-ornament {
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(207, 108, 61, 0.32), rgba(207, 108, 61, 0.03)),
+    linear-gradient(135deg, rgba(255, 241, 224, 0.25), rgba(255, 247, 237, 0.04));
+  box-shadow: inset 0 0 0 1px rgba(219, 177, 133, 0.16);
+}
+
+.empty-eyebrow {
+  margin: 0 0 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.74rem;
+}
+
+.empty-lead {
+  margin: 0 0 8px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2.7rem;
+}
+
+.empty-copy {
+  max-width: 48ch;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.book-hero {
+  position: relative;
+  min-height: 360px;
+  margin: -34px -34px 28px;
+  padding: 36px;
+  display: flex;
+  align-items: flex-end;
+  background-size: cover;
+  background-position: center;
+}
+
+.book-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(12, 9, 7, 0.12), rgba(12, 9, 7, 0.92)),
+    linear-gradient(90deg, rgba(12, 9, 7, 0.8), rgba(12, 9, 7, 0.14));
+}
+
+.book-hero-copy {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+}
+
+.book-theme {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(12, 9, 7, 0.32);
+  color: #f9e9d8;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.7rem;
+}
+
+.book-header {
+  padding: 10px 0 28px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 28px;
+}
+
+.book-kicker {
+  margin: 0;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.72rem;
+}
+
+.book-name {
+  margin: 10px 0 8px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(2.6rem, 4vw, 4rem);
+  line-height: 0.95;
+}
+
+.book-meta {
+  margin: 0;
+  color: var(--muted);
+}
+
+.book-summary {
+  margin-top: 16px;
+  max-width: 58ch;
+  line-height: 1.8;
+  color: rgba(242, 229, 212, 0.82);
+}
+
+.hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.hero-tag {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #f3deca;
+  font-size: 0.82rem;
+}
+
+.page-section {
+  padding: 24px 0 30px;
+  border-bottom: 1px solid var(--line);
+  animation: pageRise 420ms ease both;
+  scroll-margin-top: 24px;
+}
+
+.page-title {
+  margin: 0 0 16px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.page-content {
+  display: grid;
+  gap: 16px;
+}
+
+.page-content p,
+.page-content h2 {
+  margin: 0;
+}
+
+.page-content p {
+  max-width: 68ch;
+  font-size: 1.03rem;
+  line-height: 1.95;
+  color: rgba(242, 229, 212, 0.92);
+}
+
+.page-content h2 {
+  margin-top: 10px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #f6cfac;
+}
+
+.page-content .dropcap::first-letter {
+  float: left;
+  margin-right: 10px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 4.2rem;
+  line-height: 0.86;
+  color: var(--accent);
+}
+
+.loading {
+  display: grid;
+  gap: 14px;
+}
+
+.loading-bar {
+  height: 12px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(143, 95, 62, 0.1);
+}
+
+.loading-bar span {
+  display: block;
+  width: 36%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, rgba(207, 108, 61, 0.2), rgba(207, 108, 61, 0.75));
+  animation: pulseSlide 1.2s ease-in-out infinite;
+}
+
+.error-panel {
+  border-left: 4px solid #9d3c31;
+  padding-left: 18px;
+}
+
+@keyframes pulseSlide {
+  0% {
+    transform: translateX(-110%);
+  }
+
+  100% {
+    transform: translateX(290%);
+  }
+}
+
+@keyframes pageRise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 980px) {
+  .app-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .reader-sidebar {
+    position: static;
+    height: auto;
+  }
+
+  .sidebar-frame {
+    grid-template-rows: none;
+  }
+
+  .toc {
+    max-height: 280px;
+  }
+
+  .book-view,
+  .empty-state {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .page-shell {
+    width: min(100% - 18px, 100%);
+    margin: 12px auto 32px;
+  }
+
+  .upload-panel,
+  .sidebar-card,
+  .book-view,
+  .status-card,
+  .brand-block {
+    padding: 22px;
+    border-radius: 22px;
+  }
+
+  .empty-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .book-hero {
+    min-height: 300px;
+    margin: -22px -22px 24px;
+    padding: 24px;
+  }
+}

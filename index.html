@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ReadWell Reader</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <main class="app-layout">
+        <aside class="reader-sidebar">
+          <div class="sidebar-frame">
+            <div class="brand-block">
+              <p class="brand-mark">ReadWell</p>
+              <h1>Read PDFs like designed books.</h1>
+              <p class="brand-copy">
+                Upload a PDF, rebuild its structure, and generate a reader with a
+                context-aware hero image instead of a static cover.
+              </p>
+            </div>
+
+            <label class="upload-panel" for="pdfInput">
+              <span class="upload-kicker">Import Book</span>
+              <strong>Choose a PDF</strong>
+              <span class="upload-hint">
+                ReadWell extracts text, rebuilds chapters, and styles the result
+                into a calmer reading layout.
+              </span>
+              <input id="pdfInput" type="file" accept="application/pdf" />
+            </label>
+
+            <section class="status-card">
+              <div class="status-row">
+                <span class="status-label">Status</span>
+                <strong id="statusText">Waiting for a PDF</strong>
+              </div>
+              <div class="status-row">
+                <span class="status-label">Book</span>
+                <strong id="bookTitle">No file loaded</strong>
+              </div>
+              <div class="status-row">
+                <span class="status-label">Pages</span>
+                <strong id="pageCount">0</strong>
+              </div>
+              <button id="downloadHtmlButton" class="download-button" type="button" disabled>
+                Download HTML
+              </button>
+            </section>
+
+            <section class="sidebar-card">
+              <p class="sidebar-label">Contents</p>
+              <nav id="toc" class="toc">
+                <p class="toc-empty">Upload a PDF to generate chapters and pages.</p>
+              </nav>
+            </section>
+          </div>
+        </aside>
+
+        <section class="reader-main">
+          <article id="bookView" class="book-view empty-state">
+            <div class="empty-hero">
+              <div class="empty-ornament"></div>
+              <div>
+                <p class="empty-eyebrow">Context-Aware Reader</p>
+                <p class="empty-lead">Your book preview appears here.</p>
+                <p class="empty-copy">
+                  The uploaded PDF will be analyzed for tone and subject, then
+                  matched with a better hero image and a proper sidebar-driven
+                  reading flow.
+                </p>
+              </div>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
